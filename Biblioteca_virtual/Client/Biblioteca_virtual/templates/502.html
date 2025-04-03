@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Gateway inválido - Biblioteca Virtual{% endblock %}
+
+{% block extra_css %}
+<style>
+    .error-container {
+        max-width: 500px;
+        margin: 4rem auto;
+        padding: 2rem;
+        background-color: #fff;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    .error-code {
+        font-size: 8rem;
+        font-weight: bold;
+        color: #6610f2;
+        line-height: 1;
+        margin-bottom: 1rem;
+    }
+    .error-message {
+        font-size: 1.5rem;
+        color: #6c757d;
+        margin-bottom: 2rem;
+    }
+    .gateway-icon {
+        font-size: 3rem;
+        color: #6610f2;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="error-container text-center">
+    <i class="bi bi-diagram-3 gateway-icon"></i>
+    <div class="error-code">502</div>
+    <div class="error-message">Gateway Inválido</div>
+    <p class="mb-4">
+        Desculpe, ocorreu um erro na comunicação entre os servidores.
+        Nossa equipe foi notificada e está trabalhando para resolver o problema.
+    </p>
+    <div class="d-grid gap-2">
+        <button onclick="location.reload()" class="btn btn-primary">
+            <i class="bi bi-arrow-clockwise"></i> Tentar Novamente
+        </button>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-house"></i> Voltar para Início
+        </a>
+    </div>
+</div>
+{% endblock %} 

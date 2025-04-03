@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ categoria.nome }} - Biblioteca Virtual{% endblock %}
+
+{% block extra_css %}
+<style>
+    .categoria-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+    }
+
+    .categoria-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+
+    .categoria-nome {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    .categoria-descricao {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .categoria-stats {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+    .categoria-stat {
+        text-align: center;
+    }
+
+    .categoria-stat i {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .categoria-stat span {
+        display: block;
+        font-size: 1.1rem;
+    }
+
+    .livros-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .livro-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .livro-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .livro-imagem {
+        height: 300px;
+        overflow: hidden;
+    }
+
+    .livro-imagem img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .livro-card:hover .livro-imagem img {
+        transform: scale(1.05);
+    }
+
+    .livro-info {
+        padding: 1.5rem;
+    }
+
+    .livro-titulo {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--dark-color);
+    }
+
+    .livro-autor {
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+
+    .livro-status {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .status-disponivel {
+        background: #e3fcef;
+        color: #00b894;
+    }
+
+    .status-indisponivel {
+        background: #ffe3e3;
+        color: #ff7675;
+    }
+
+    .pagination {
+        margin-top: 3rem;
+        justify-content: center;
+    }
+
+    .page-link {
+        color: var(--primary-color);
+        border: none;
+        padding: 0.5rem 1rem;
+        margin: 0 0.25rem;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .page-link:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .page-item.active .page-link {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .sem-livros {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .sem-livros i {
+        font-size: 3rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="categoria-header">
+    <div class="container text-center">
+        <div class="categoria-icon">
+            <i class="bi {{ categoria.icone }}"></i>
+        </div>
+        <h1 class="categoria-nome">{{ categoria.nome }}</h1>
+        <p class="categoria-descricao">{{ categoria.descricao }}</p>
+        <div class="categoria-stats">
+            <div class="categoria-stat">
+                <i class="bi bi-book"></i>
+                <span>{{ categoria.livros.count }} livros</span>
+            </div>
+            <div class="categoria-stat">
+                <i class="bi bi-clock"></i>
+                <span>Atualizado {{ categoria.updated_at|timesince }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    {% if livros %}
+    <div class="livros-grid">
+        {% for livro in livros %}
+        <div class="livro-card">
+            <div class="livro-imagem">
+                {% if livro.imagem %}
+                <img src="{{ livro.imagem.url }}" alt="{{ livro.titulo }}">
+                {% else %}
+                <img src="https://via.placeholder.com/300x400?text=Sem+imagem" alt="Sem imagem">
+                {% endif %}
+            </div>
+            <div class="livro-info">
+                <h3 class="livro-titulo">{{ livro.titulo }}</h3>
+                <p class="livro-autor">{{ livro.autor }}</p>
+                <span class="livro-status {% if livro.disponivel %}status-disponivel{% else %}status-indisponivel{% endif %}">
+                    {% if livro.disponivel %}
+                    <i class="bi bi-check-circle"></i> Disponível
+                    {% else %}
+                    <i class="bi bi-x-circle"></i> Indisponível
+                    {% endif %}
+                </span>
+                <a href="{% url 'biblioteca:livro_detail' livro.id %}" class="btn btn-primary w-100 mt-3">
+                    <i class="bi bi-eye"></i> Ver detalhes
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if livros.has_other_pages %}
+    <nav aria-label="Navegação de páginas">
+        <ul class="pagination">
+            {% if livros.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ livros.previous_page_number }}">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+            {% endif %}
+
+            {% for num in livros.paginator.page_range %}
+            {% if livros.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if livros.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ livros.next_page_number }}">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+    {% else %}
+    <div class="sem-livros">
+        <i class="bi bi-book"></i>
+        <h3>Nenhum livro encontrado</h3>
+        <p class="text-muted">Em breve, novos livros serão adicionados nesta categoria.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

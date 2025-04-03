@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Categorias - Biblioteca Virtual{% endblock %}
+
+{% block extra_css %}
+<style>
+    .categorias-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+    }
+
+    .categorias-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    .categorias-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+    .categoria-card {
+        height: 100%;
+        text-align: center;
+        padding: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .categoria-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .categoria-icon {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+    }
+
+    .categoria-nome {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--dark-color);
+    }
+
+    .categoria-descricao {
+        color: #6c757d;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .categoria-stats {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #6c757d;
+    }
+
+    .categoria-stat {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .categoria-stat i {
+        color: var(--primary-color);
+    }
+
+    .btn-explorar {
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-explorar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+    }
+
+    .sem-categorias {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .sem-categorias i {
+        font-size: 3rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="categorias-header">
+    <div class="container text-center">
+        <h1 class="categorias-title">Categorias de Livros</h1>
+        <p class="categorias-subtitle">Explore nossa coleção organizada por temas</p>
+    </div>
+</div>
+
+<div class="container">
+    {% if categorias %}
+    <div class="row g-4">
+        {% for categoria in categorias %}
+        <div class="col-md-4">
+            <div class="card categoria-card">
+                <div class="categoria-icon">
+                    <i class="bi {{ categoria.icone }}"></i>
+                </div>
+                <h3 class="categoria-nome">{{ categoria.nome }}</h3>
+                <p class="categoria-descricao">{{ categoria.descricao|truncatewords:20 }}</p>
+                <div class="categoria-stats">
+                    <div class="categoria-stat">
+                        <i class="bi bi-book"></i>
+                        <span>{{ categoria.livros.count }} livros</span>
+                    </div>
+                    <div class="categoria-stat">
+                        <i class="bi bi-clock"></i>
+                        <span>Atualizado {{ categoria.updated_at|timesince }}</span>
+                    </div>
+                </div>
+                <a href="{% url 'biblioteca:categoria_detail' categoria.slug %}" class="btn btn-primary btn-explorar">
+                    <i class="bi bi-arrow-right"></i> Explorar
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="sem-categorias">
+        <i class="bi bi-tags"></i>
+        <h3>Nenhuma categoria encontrada</h3>
+        <p class="text-muted">Em breve, novas categorias serão adicionadas.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

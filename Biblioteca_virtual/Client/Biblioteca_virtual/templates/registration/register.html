@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Cadastro - Biblioteca Virtual{% endblock %}
+
+{% block extra_css %}
+<style>
+    .register-container {
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+
+    .register-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        overflow: hidden;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .register-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .register-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .register-subtitle {
+        opacity: 0.9;
+    }
+
+    .register-body {
+        padding: 2rem;
+    }
+
+    .form-control {
+        border-radius: 25px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #dee2e6;
+    }
+
+    .form-control:focus {
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    .btn-register {
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .social-register {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .social-register-title {
+        color: #6c757d;
+        margin-bottom: 1rem;
+        position: relative;
+    }
+
+    .social-register-title::before,
+    .social-register-title::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 45%;
+        height: 1px;
+        background-color: #dee2e6;
+    }
+
+    .social-register-title::before {
+        left: 0;
+    }
+
+    .social-register-title::after {
+        right: 0;
+    }
+
+    .social-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .social-button {
+        flex: 1;
+        max-width: 150px;
+        border-radius: 25px;
+        padding: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .social-button:hover {
+        transform: translateY(-2px);
+    }
+
+    .social-button.google {
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        color: #333;
+    }
+
+    .social-button.facebook {
+        background-color: #1877f2;
+        border: none;
+        color: white;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #6c757d;
+    }
+
+    .login-link a {
+        color: var(--secondary-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    .alert {
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+    }
+
+    .password-requirements {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-top: 0.5rem;
+        padding: 0.75rem;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+    }
+
+    .password-requirements ul {
+        margin-bottom: 0;
+        padding-left: 1.5rem;
+    }
+
+    .password-requirements li {
+        margin-bottom: 0.25rem;
+    }
+
+    .password-requirements li:last-child {
+        margin-bottom: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-card">
+        <div class="register-header">
+            <h1 class="register-title">Criar Conta</h1>
+            <p class="register-subtitle">Junte-se à nossa biblioteca virtual</p>
+        </div>
+        <div class="register-body">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary btn-register">
+                    <i class="bi bi-person-plus"></i> Criar Conta
+                </button>
+            </form>
+
+            <div class="password-requirements">
+                <h6 class="mb-2">Requisitos da senha:</h6>
+                <ul>
+                    <li>Mínimo de 8 caracteres</li>
+                    <li>Deve conter letras e números</li>
+                    <li>Não pode ser muito comum</li>
+                    <li>Não pode ser inteiramente numérica</li>
+                </ul>
+            </div>
+
+            <div class="social-register">
+                <p class="social-register-title">ou cadastre-se com</p>
+                <div class="social-buttons">
+                    <a href="#" class="btn social-button google">
+                        <i class="bi bi-google"></i> Google
+                    </a>
+                    <a href="#" class="btn social-button facebook">
+                        <i class="bi bi-facebook"></i> Facebook
+                    </a>
+                </div>
+            </div>
+
+            <div class="login-link">
+                Já tem uma conta? <a href="{% url 'login' %}">Faça login</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
