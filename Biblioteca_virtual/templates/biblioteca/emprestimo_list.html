@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% block title %}Meus Empréstimos - Biblioteca Virtual{% endblock %}
+
+{% block extra_css %}
+<style>
+    .emprestimos-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+    }
+
+    .emprestimos-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    .emprestimos-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+    .emprestimo-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+    }
+
+    .emprestimo-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .emprestimo-imagem {
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .emprestimo-imagem img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .emprestimo-card:hover .emprestimo-imagem img {
+        transform: scale(1.05);
+    }
+
+    .emprestimo-info {
+        padding: 1.5rem;
+    }
+
+    .emprestimo-titulo {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--dark-color);
+    }
+
+    .emprestimo-autor {
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+
+    .emprestimo-datas {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+
+    .emprestimo-data {
+        text-align: center;
+    }
+
+    .emprestimo-data-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 0.25rem;
+    }
+
+    .emprestimo-data-valor {
+        font-weight: 600;
+        color: var(--dark-color);
+    }
+
+    .emprestimo-status {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .status-em-andamento {
+        background: #e3fcef;
+        color: #00b894;
+    }
+
+    .status-atrasado {
+        background: #ffe3e3;
+        color: #ff7675;
+    }
+
+    .status-devolvido {
+        background: #e3fcef;
+        color: #00b894;
+    }
+
+    .btn-devolver {
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-devolver:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+    }
+
+    .sem-emprestimos {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .sem-emprestimos i {
+        font-size: 3rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="emprestimos-header">
+    <div class="container text-center">
+        <h1 class="emprestimos-title">Meus Empréstimos</h1>
+        <p class="emprestimos-subtitle">Gerencie seus livros emprestados</p>
+    </div>
+</div>
+
+<div class="container">
+    {% if emprestimos %}
+    {% for emprestimo in emprestimos %}
+    <div class="emprestimo-card">
+        <div class="row g-0">
+            <div class="col-md-3">
+                <div class="emprestimo-imagem">
+                    {% if emprestimo.livro.imagem %}
+                    <img src="{{ emprestimo.livro.imagem.url }}" alt="{{ emprestimo.livro.titulo }}">
+                    {% else %}
+                    <img src="https://via.placeholder.com/300x400?text=Sem+imagem" alt="Sem imagem">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="emprestimo-info">
+                    <h3 class="emprestimo-titulo">{{ emprestimo.livro.titulo }}</h3>
+                    <p class="emprestimo-autor">{{ emprestimo.livro.autor }}</p>
+                    
+                    <div class="emprestimo-datas">
+                        <div class="emprestimo-data">
+                            <div class="emprestimo-data-label">Data do Empréstimo</div>
+                            <div class="emprestimo-data-valor">{{ emprestimo.data_emprestimo|date:"d/m/Y" }}</div>
+                        </div>
+                        <div class="emprestimo-data">
+                            <div class="emprestimo-data-label">Data de Devolução</div>
+                            <div class="emprestimo-data-valor">{{ emprestimo.data_devolucao|date:"d/m/Y" }}</div>
+                        </div>
+                    </div>
+
+                    <span class="emprestimo-status {% if emprestimo.atrasado %}status-atrasado{% elif emprestimo.devolvido %}status-devolvido{% else %}status-em-andamento{% endif %}">
+                        {% if emprestimo.atrasado %}
+                        <i class="bi bi-exclamation-circle"></i> Atrasado
+                        {% elif emprestimo.devolvido %}
+                        <i class="bi bi-check-circle"></i> Devolvido
+                        {% else %}
+                        <i class="bi bi-clock"></i> Em andamento
+                        {% endif %}
+                    </span>
+
+                    {% if not emprestimo.devolvido %}
+                    <form method="post" action="{% url 'biblioteca:emprestimo_devolver' emprestimo.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-devolver">
+                            <i class="bi bi-check-circle"></i> Devolver Livro
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="sem-emprestimos">
+        <i class="bi bi-book"></i>
+        <h3>Nenhum empréstimo encontrado</h3>
+        <p class="text-muted">Você ainda não tem nenhum livro emprestado.</p>
+        <a href="{% url 'biblioteca:livro_list' %}" class="btn btn-primary mt-3">
+            <i class="bi bi-book"></i> Explorar Catálogo
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

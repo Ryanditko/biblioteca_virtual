@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Login - Biblioteca Virtual{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+
+    .login-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        overflow: hidden;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .login-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .login-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .login-subtitle {
+        opacity: 0.9;
+    }
+
+    .login-body {
+        padding: 2rem;
+    }
+
+    .form-control {
+        border-radius: 25px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #dee2e6;
+    }
+
+    .form-control:focus {
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    .btn-login {
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .social-login {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .social-login-title {
+        color: #6c757d;
+        margin-bottom: 1rem;
+        position: relative;
+    }
+
+    .social-login-title::before,
+    .social-login-title::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 45%;
+        height: 1px;
+        background-color: #dee2e6;
+    }
+
+    .social-login-title::before {
+        left: 0;
+    }
+
+    .social-login-title::after {
+        right: 0;
+    }
+
+    .social-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .social-button {
+        flex: 1;
+        max-width: 150px;
+        border-radius: 25px;
+        padding: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .social-button:hover {
+        transform: translateY(-2px);
+    }
+
+    .social-button.google {
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        color: #333;
+    }
+
+    .social-button.facebook {
+        background-color: #1877f2;
+        border: none;
+        color: white;
+    }
+
+    .register-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #6c757d;
+    }
+
+    .register-link a {
+        color: var(--secondary-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .register-link a:hover {
+        text-decoration: underline;
+    }
+
+    .alert {
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h1 class="login-title">Bem-vindo de volta!</h1>
+            <p class="login-subtitle">Faça login para acessar sua conta</p>
+        </div>
+        <div class="login-body">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary btn-login">
+                    <i class="bi bi-box-arrow-in-right"></i> Entrar
+                </button>
+            </form>
+
+            <div class="social-login">
+                <p class="social-login-title">ou continue com</p>
+                <div class="social-buttons">
+                    <a href="#" class="btn social-button google">
+                        <i class="bi bi-google"></i> Google
+                    </a>
+                    <a href="#" class="btn social-button facebook">
+                        <i class="bi bi-facebook"></i> Facebook
+                    </a>
+                </div>
+            </div>
+
+            <div class="register-link">
+                Não tem uma conta? <a href="{% url 'register' %}">Cadastre-se</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

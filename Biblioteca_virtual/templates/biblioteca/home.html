@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+
+{% block title %}Início - Biblioteca Virtual{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 5rem 0;
+        margin-bottom: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+    }
+
+    .search-box {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .search-box .form-control {
+        border-radius: 25px;
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .search-box .btn {
+        border-radius: 25px;
+        padding: 1rem 2rem;
+        font-weight: 500;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--dark-color);
+    }
+
+    .feature-description {
+        color: #6c757d;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 2rem;
+        color: var(--dark-color);
+        text-align: center;
+    }
+
+    .categoria-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .categoria-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .categoria-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .categoria-nome {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--dark-color);
+    }
+
+    .categoria-descricao {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .livro-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .livro-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .livro-imagem {
+        height: 250px;
+        overflow: hidden;
+    }
+
+    .livro-imagem img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .livro-card:hover .livro-imagem img {
+        transform: scale(1.05);
+    }
+
+    .livro-info {
+        padding: 1.5rem;
+    }
+
+    .livro-titulo {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--dark-color);
+    }
+
+    .livro-autor {
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+
+    .btn-explorar {
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-explorar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="hero-title">Bem-vindo à Biblioteca Virtual</h1>
+        <p class="hero-subtitle">Explore nossa coleção de livros e descubra novos mundos através da leitura</p>
+        <div class="search-box">
+            <form action="{% url 'biblioteca:livro_list' %}" method="get" class="d-flex gap-2">
+                <input type="text" name="q" class="form-control" placeholder="Buscar livros...">
+                <button type="submit" class="btn btn-light">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-book"></i>
+                </div>
+                <h3 class="feature-title">Catálogo Completo</h3>
+                <p class="feature-description">Explore nossa vasta coleção de livros de diferentes gêneros e categorias.</p>
+                <a href="{% url 'biblioteca:livro_list' %}" class="btn btn-primary btn-explorar">
+                    <i class="bi bi-arrow-right"></i> Explorar
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-person-plus"></i>
+                </div>
+                <h3 class="feature-title">Cadastre-se</h3>
+                <p class="feature-description">Crie sua conta e comece a emprestar livros da nossa biblioteca virtual.</p>
+                <a href="{% url 'register' %}" class="btn btn-primary btn-explorar">
+                    <i class="bi bi-arrow-right"></i> Cadastrar
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-person"></i>
+                </div>
+                <h3 class="feature-title">Área do Usuário</h3>
+                <p class="feature-description">Gerencie seus empréstimos e mantenha um histórico de suas leituras.</p>
+                <a href="{% url 'login' %}" class="btn btn-primary btn-explorar">
+                    <i class="bi bi-arrow-right"></i> Acessar
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Categorias</h2>
+    <div class="row g-4 mb-5">
+        {% for categoria in categorias %}
+        <div class="col-md-3">
+            <div class="categoria-card">
+                <div class="categoria-icon">
+                    <i class="bi {{ categoria.icone }}" style="color: {{ categoria.cor }}"></i>
+                </div>
+                <h3 class="categoria-nome">{{ categoria.nome }}</h3>
+                <p class="categoria-descricao">{{ categoria.descricao|truncatewords:10 }}</p>
+                <a href="{% url 'biblioteca:categoria_detail' categoria.slug %}" class="btn btn-outline-primary btn-sm">
+                    Ver livros
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="section-title">Livros Recentes</h2>
+    <div class="row g-4">
+        {% for livro in livros_recentes %}
+        <div class="col-md-3">
+            <div class="livro-card">
+                <div class="livro-imagem">
+                    {% if livro.imagem %}
+                    <img src="{{ livro.imagem.url }}" alt="{{ livro.titulo }}">
+                    {% else %}
+                    <img src="https://via.placeholder.com/300x400?text=Sem+imagem" alt="Sem imagem">
+                    {% endif %}
+                </div>
+                <div class="livro-info">
+                    <h3 class="livro-titulo">{{ livro.titulo }}</h3>
+                    <p class="livro-autor">{{ livro.autor }}</p>
+                    <a href="{% url 'biblioteca:livro_detail' livro.id %}" class="btn btn-primary w-100">
+                        <i class="bi bi-eye"></i> Ver detalhes
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="text-muted">Nenhum livro recente encontrado.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Requisição inválida - Biblioteca Virtual{% endblock %}
+
+{% block extra_css %}
+<style>
+    .error-container {
+        max-width: 500px;
+        margin: 4rem auto;
+        padding: 2rem;
+        background-color: #fff;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    .error-code {
+        font-size: 8rem;
+        font-weight: bold;
+        color: #6f42c1;
+        line-height: 1;
+        margin-bottom: 1rem;
+    }
+    .error-message {
+        font-size: 1.5rem;
+        color: #6c757d;
+        margin-bottom: 2rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="error-container text-center">
+    <div class="error-code">400</div>
+    <div class="error-message">Requisição Inválida</div>
+    <p class="mb-4">
+        Desculpe, a requisição que você fez não é válida. 
+        Verifique se os dados fornecidos estão corretos e tente novamente.
+    </p>
+    <div class="d-grid gap-2">
+        <a href="{% url 'home' %}" class="btn btn-primary">
+            <i class="bi bi-house"></i> Voltar para Início
+        </a>
+        <button onclick="history.back()" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Voltar para Página Anterior
+        </button>
+    </div>
+</div>
+{% endblock %} 

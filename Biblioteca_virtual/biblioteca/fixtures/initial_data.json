@@ -1,0 +1,89 @@
+[
+    {
+        "model": "biblioteca.categoria",
+        "pk": 1,
+        "fields": {
+            "nome": "Ficção",
+            "descricao": "Livros de ficção e literatura",
+            "icone": "book",
+            "cor": "#6c5ce7",
+            "slug": "ficcao",
+            "created_at": "2024-03-20T00:00:00Z",
+            "updated_at": "2024-03-20T00:00:00Z"
+        }
+    },
+    {
+        "model": "biblioteca.categoria",
+        "pk": 2,
+        "fields": {
+            "nome": "Não Ficção",
+            "descricao": "Livros de não ficção e conhecimento",
+            "icone": "lightbulb",
+            "cor": "#00b894",
+            "slug": "nao-ficcao",
+            "created_at": "2024-03-20T00:00:00Z",
+            "updated_at": "2024-03-20T00:00:00Z"
+        }
+    },
+    {
+        "model": "biblioteca.categoria",
+        "pk": 3,
+        "fields": {
+            "nome": "Infantil",
+            "descricao": "Livros para crianças",
+            "icone": "child",
+            "cor": "#ff7675",
+            "slug": "infantil",
+            "created_at": "2024-03-20T00:00:00Z",
+            "updated_at": "2024-03-20T00:00:00Z"
+        }
+    },
+    {
+        "model": "biblioteca.livro",
+        "pk": 1,
+        "fields": {
+            "titulo": "O Pequeno Príncipe",
+            "autor": "Antoine de Saint-Exupéry",
+            "isbn": "9788535909558",
+            "descricao": "Um clássico da literatura infantil que encanta adultos e crianças",
+            "imagem": "livros/pequeno-principe.jpg",
+            "ano_publicacao": 1943,
+            "disponivel": true,
+            "categoria": 3,
+            "created_at": "2024-03-20T00:00:00Z",
+            "updated_at": "2024-03-20T00:00:00Z"
+        }
+    },
+    {
+        "model": "biblioteca.livro",
+        "pk": 2,
+        "fields": {
+            "titulo": "1984",
+            "autor": "George Orwell",
+            "isbn": "9788535909559",
+            "descricao": "Uma distopia clássica sobre totalitarismo e controle social",
+            "imagem": "livros/1984.jpg",
+            "ano_publicacao": 1949,
+            "disponivel": true,
+            "categoria": 1,
+            "created_at": "2024-03-20T00:00:00Z",
+            "updated_at": "2024-03-20T00:00:00Z"
+        }
+    },
+    {
+        "model": "biblioteca.livro",
+        "pk": 3,
+        "fields": {
+            "titulo": "Sapiens: Uma Breve História da Humanidade",
+            "autor": "Yuval Noah Harari",
+            "isbn": "9788535909550",
+            "descricao": "Uma visão abrangente da história da humanidade",
+            "imagem": "livros/sapiens.jpg",
+            "ano_publicacao": 2011,
+            "disponivel": true,
+            "categoria": 2,
+            "created_at": "2024-03-20T00:00:00Z",
+            "updated_at": "2024-03-20T00:00:00Z"
+        }
+    }
+] 

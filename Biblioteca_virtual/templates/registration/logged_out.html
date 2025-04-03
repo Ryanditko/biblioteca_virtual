@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Logout - Biblioteca Virtual{% endblock %}
+
+{% block extra_css %}
+<style>
+    .logout-container {
+        max-width: 400px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: #fff;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    .logout-icon {
+        font-size: 3rem;
+        color: #0d6efd;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="logout-container">
+    <div class="text-center mb-4">
+        <i class="bi bi-box-arrow-right logout-icon"></i>
+        <h2>Logout Realizado</h2>
+        <p class="text-muted">
+            Você foi desconectado com sucesso. Obrigado por usar nossa biblioteca virtual!
+        </p>
+    </div>
+
+    <div class="d-grid gap-2">
+        <a href="{% url 'login' %}" class="btn btn-primary">
+            <i class="bi bi-box-arrow-in-right"></i> Fazer Login Novamente
+        </a>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-house"></i> Voltar para Início
+        </a>
+    </div>
+</div>
+{% endblock %} 
